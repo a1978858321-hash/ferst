@@ -12,21 +12,21 @@ export const Header: React.FC = () => {
           <div>
             <h1 className="text-lg font-bold text-slate-100 tracking-tight flex items-center gap-2">
               ClearView AI
-              <span className="text-[10px] font-normal px-1.5 py-0.5 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded">BETA</span>
+              <span className="text-[10px] font-normal px-1.5 py-0.5 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded">公测版</span>
             </h1>
           </div>
         </div>
         
         <div className="flex items-center space-x-6">
           <a href="#" className="text-sm font-medium text-slate-400 hover:text-white transition-colors">
-            How it works
+            使用教程
           </a>
           <a href="#" className="text-sm font-medium text-slate-400 hover:text-white transition-colors">
-            Pricing
+            价格
           </a>
            <div className="hidden md:flex items-center px-3 py-1 bg-indigo-500/10 rounded-full border border-indigo-500/20">
             <Sparkles className="w-3 h-3 text-indigo-400 mr-2" />
-            <span className="text-xs text-indigo-300 font-medium">Powered by Gemini 2.5</span>
+            <span className="text-xs text-indigo-300 font-medium">由 Gemini 2.5 驱动</span>
           </div>
         </div>
       </div>

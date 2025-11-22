@@ -7,7 +7,7 @@ export const removeWatermark = async (
   mimeType: string
 ): Promise<string> => {
   if (!process.env.API_KEY) {
-    throw new Error("API Key is missing. Please check your environment configuration.");
+    throw new Error("缺少 API Key，请检查环境变量配置。");
   }
 
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
@@ -36,7 +36,7 @@ export const removeWatermark = async (
     // Extract image from response
     const parts = response.candidates?.[0]?.content?.parts;
     if (!parts) {
-      throw new Error("No content returned from Gemini.");
+      throw new Error("Gemini 未返回内容。");
     }
 
     for (const part of parts) {
@@ -45,10 +45,10 @@ export const removeWatermark = async (
       }
     }
 
-    throw new Error("The model processed the request but did not return an image. Please try again.");
+    throw new Error("模型处理了请求但未返回图片，请重试。");
 
   } catch (error: any) {
     console.error("Gemini API Error:", error);
-    throw new Error(error.message || "Failed to remove watermark.");
+    throw new Error(error.message || "去水印失败。");
   }
 };

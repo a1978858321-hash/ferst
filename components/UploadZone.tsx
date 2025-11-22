@@ -61,17 +61,17 @@ export const UploadZone: React.FC<UploadZoneProps> = ({ onFileSelect, isProcessi
         </div>
         
         <p className="mb-2 text-xl font-semibold text-slate-200">
-          {isProcessing ? 'Processing...' : 'Click or Drag to Upload Image'}
+          {isProcessing ? '处理中...' : '点击或拖拽上传图片'}
         </p>
         <p className="text-sm text-slate-400 max-w-xs mx-auto">
-          Supports JPG, PNG, WEBP. High resolution images are optimized for editing.
+          支持 JPG, PNG, WEBP 格式。高清图片智能优化。
         </p>
       </div>
 
       {!isProcessing && (
           <div className="absolute bottom-6 flex items-center space-x-2 text-xs text-slate-500 bg-slate-900/80 px-3 py-1 rounded-full border border-slate-700">
             <AlertCircle className="w-3 h-3" />
-            <span>Max file size: 10MB</span>
+            <span>最大文件大小: 10MB</span>
           </div>
       )}
     </div>

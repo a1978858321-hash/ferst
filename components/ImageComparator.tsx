@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { MoveHorizontal, Download, RefreshCw, Image as ImageIcon, Wand2 } from 'lucide-react';
+import { MoveHorizontal, Download, RefreshCw, Image as ImageIcon, Wand2, Share2, Check } from 'lucide-react';
 
 interface ImageComparatorProps {
   originalSrc: string;
@@ -18,6 +18,7 @@ export const ImageComparator: React.FC<ImageComparatorProps> = ({
 }) => {
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isResizing, setIsResizing] = useState(false);
+  const [copied, setCopied] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleMouseDown = () => setIsResizing(true);
@@ -68,6 +69,30 @@ export const ImageComparator: React.FC<ImageComparatorProps> = ({
     document.body.removeChild(link);
   };
 
+  const handleShare = async () => {
+    const shareData = {
+        title: 'ClearView AI',
+        text: '快来看看这个超强的AI去水印工具！',
+        url: window.location.href
+    };
+
+    if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+        try {
+            await navigator.share(shareData);
+        } catch (err) {
+            // Share cancelled
+        }
+    } else {
+        try {
+            await navigator.clipboard.writeText(window.location.href);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        } catch (err) {
+            console.error('Failed to copy', err);
+        }
+    }
+  };
+
   return (
     <div className="w-full max-w-5xl mx-auto animate-fade-in">
       
@@ -75,17 +100,26 @@ export const ImageComparator: React.FC<ImageComparatorProps> = ({
       <div className="flex flex-wrap items-center justify-between mb-4 gap-4">
         <div className="flex items-center space-x-2 text-slate-300">
           <ImageIcon className="w-5 h-5" />
-          <span className="font-medium">Preview</span>
+          <span className="font-medium">预览</span>
         </div>
         
         <div className="flex items-center space-x-3">
+          <button
+            onClick={handleShare}
+            className="flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+            title="Share App"
+          >
+             {copied ? <Check className="w-4 h-4 text-green-400" /> : <Share2 className="w-4 h-4" />}
+             <span>{copied ? '已复制' : '分享'}</span>
+          </button>
+
           <button
             onClick={onReset}
             className="flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
             disabled={isProcessing}
           >
             <RefreshCw className="w-4 h-4" />
-            <span>New Image</span>
+            <span>上传新图</span>
           </button>
 
           {!processedSrc && (
@@ -104,12 +138,12 @@ export const ImageComparator: React.FC<ImageComparatorProps> = ({
               {isProcessing ? (
                  <>
                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                   <span>Cleaning...</span>
+                   <span>处理中...</span>
                  </>
               ) : (
                  <>
                    <Wand2 className="w-4 h-4" />
-                   <span>Remove Watermark</span>
+                   <span>一键去水印</span>
                  </>
               )}
             </button>
@@ -121,7 +155,7 @@ export const ImageComparator: React.FC<ImageComparatorProps> = ({
               className="flex items-center space-x-2 px-6 py-2 rounded-lg text-sm font-bold text-white bg-green-600 hover:bg-green-500 shadow-lg transition-all transform hover:scale-105"
             >
               <Download className="w-4 h-4" />
-              <span>Download</span>
+              <span>下载图片</span>
             </button>
           )}
         </div>
@@ -143,7 +177,7 @@ export const ImageComparator: React.FC<ImageComparatorProps> = ({
             />
             {!processedSrc && !isProcessing && (
                 <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 backdrop-blur-md text-white text-xs px-3 py-1 rounded-full border border-white/10">
-                    Original Image
+                    原图
                 </div>
             )}
         </div>
@@ -165,7 +199,7 @@ export const ImageComparator: React.FC<ImageComparatorProps> = ({
             </div>
             {/* Label for After */}
             <div className="absolute bottom-4 left-4 bg-blue-600/90 text-white text-xs px-2 py-1 rounded shadow-lg z-10">
-                Cleaned
+                去水印后
             </div>
           </div>
         )}
@@ -187,14 +221,14 @@ export const ImageComparator: React.FC<ImageComparatorProps> = ({
         {/* Label for Before (Only shows when processed exists to avoid confusion) */}
         {processedSrc && (
             <div className="absolute bottom-4 right-4 bg-slate-800/90 text-slate-300 text-xs px-2 py-1 rounded shadow-lg z-10">
-                Original
+                原图
             </div>
         )}
       </div>
       
       {processedSrc && (
         <p className="text-center mt-4 text-slate-500 text-sm">
-          Drag the slider to compare results
+          拖动滑块对比效果
         </p>
       )}
     </div>

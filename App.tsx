@@ -12,12 +12,12 @@ const App: React.FC = () => {
   const handleFileSelect = useCallback((file: File) => {
     // 1. Validate file
     if (!file.type.startsWith('image/')) {
-      alert('Please upload a valid image file.');
+      alert('请上传有效的图片文件。');
       return;
     }
     
     if (file.size > 10 * 1024 * 1024) { // 10MB limit
-        alert('File size too large. Please upload an image smaller than 10MB.');
+        alert('文件过大，请上传小于 10MB 的图片。');
         return;
     }
 
@@ -68,7 +68,7 @@ const App: React.FC = () => {
       setSession(prev => prev ? { 
         ...prev, 
         status: ProcessingStatus.ERROR, 
-        error: error.message || "An unexpected error occurred." 
+        error: error.message || "发生了意外错误。" 
       } : null);
     }
   };
@@ -87,10 +87,10 @@ const App: React.FC = () => {
         {!session && (
           <div className="text-center mb-12 animate-fade-in-up">
             <h2 className="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 mb-4 tracking-tight">
-              Remove Watermarks in Seconds
+              AI 智能秒级去水印
             </h2>
             <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-              Use advanced AI to automatically detect and erase watermarks, logos, and unwanted text from your images while perfectly reconstructing the background.
+              利用先进的 AI 技术自动检测并擦除图片中的水印、Logo 和多余文字，完美还原背景细节。
             </p>
           </div>
         )}
@@ -115,9 +115,9 @@ const App: React.FC = () => {
                 {/* Feature Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
                   {[
-                    { title: 'AI Powered', desc: 'Uses Gemini 2.5 Flash for intelligent context awareness.' },
-                    { title: 'High Quality', desc: 'Preserves original resolution and details.' },
-                    { title: 'Secure', desc: 'Images are processed in memory and not stored.' }
+                    { title: 'AI 驱动', desc: '使用 Gemini 2.5 Flash 进行智能上下文识别。' },
+                    { title: '高清画质', desc: '保留原始分辨率和细节。' },
+                    { title: '安全隐私', desc: '图片仅在内存中处理，不会保存。' }
                   ].map((feature, idx) => (
                     <div key={idx} className="p-6 rounded-2xl bg-slate-800/50 border border-slate-700/50 hover:border-slate-600 transition-colors">
                       <h3 className="font-semibold text-slate-200 mb-2">{feature.title}</h3>
@@ -133,9 +133,9 @@ const App: React.FC = () => {
                   <div className="max-w-xl mx-auto mb-8 text-center">
                      <div className="flex items-center justify-center space-x-2 text-blue-400 mb-2">
                         <Loader2 className="w-5 h-5 animate-spin" />
-                        <span className="font-semibold">Processing image...</span>
+                        <span className="font-semibold">正在处理图片...</span>
                      </div>
-                     <p className="text-sm text-slate-500">This usually takes 5-10 seconds.</p>
+                     <p className="text-sm text-slate-500">通常需要 5-10 秒。</p>
                   </div>
                )}
 
@@ -154,7 +154,7 @@ const App: React.FC = () => {
       {/* Footer */}
       <footer className="py-8 border-t border-slate-800 bg-slate-900">
         <div className="max-w-7xl mx-auto px-4 text-center text-slate-500 text-sm">
-          <p>&copy; {new Date().getFullYear()} ClearView AI. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} ClearView AI. 保留所有权利。</p>
         </div>
       </footer>
       
